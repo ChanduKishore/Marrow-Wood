@@ -1,0 +1,1 @@
+{"day": 1, "hours": 27, "person": {"health": 100, "food": 90, "water": 91, "max_health": 100, "max_food": 100, "max_water": 100, "last_ate": 22, "last_drink": 22, "inventory": [["Fruits", {"name": "apple", "energy": 20, "quantity": 96}], ["Fruits", {"name": "orange", "energy": 20, "quantity": 48}]]}}
