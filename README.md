@@ -1,4 +1,4 @@
-<img width="1162" height="497" alt="image" src="https://github.com/user-attachments/assets/68ba9318-6be6-427c-8fb3-47e6e32dbf50" /># Marrow-Wood
+# Marrow-Wood
 It's a real time strategy survival game
 
 
@@ -59,9 +59,5 @@ Task 4: Make Fire
 Task 5: Kill a Rabbit 
 Collect Meat and Hide
 
-
-
-<img width="895" height="1236" alt="image" src="https://github.com/user-attachments/assets/b1066c17-08f2-41c8-82af-7f52db75f4f5" />
-
-<img width="894" height="565" alt="image" src="https://github.com/user-attachments/assets/beaf551d-f795-4cd6-ac02-789607d9e8ff" />
+<img width="1162" height="497" alt="image" src="https://github.com/user-attachments/assets/68ba9318-6be6-427c-8fb3-47e6e32dbf50" />
 
