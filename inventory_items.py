@@ -1,4 +1,4 @@
-from fruit import Fruit
+from consumable import Fruit
 
 
 inventory_items = {'Fruits':Fruit}

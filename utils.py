@@ -107,9 +107,8 @@ class DialogBox():
     def update_text(self, new_text):
         self.text = new_text
 
-    def update_y_delta(self, increment):
-        self.y_delta = increment + self.padding
-
+    def calc_y_delta(self, font_height):
+        self.y_delta = int(self.h/font_height)
     def render(self):
         ### Text
         y = self.y + self.padding
@@ -119,16 +118,15 @@ class DialogBox():
         for i,line in enumerate(lines[-self.y_delta:]):
 
             font_height = self.render_text(line, (self.x + padding , y), color = self.font_color, font_size = 13 )
-            self.update_y_delta(font_height)
-            if i%2:
+            self.calc_y_delta(font_height + extra_line_space*1.5)
+            if not 'Day' == line[:3]:
                 y+= extra_line_space
-            y += self.y_delta
+            y += font_height + extra_line_space
 
 
 
 class Inventory():
-    def __init__(self,w,h,x,y, items_list,render_text, render_surface, screen ,slots = 7, rows = 4):
-        self.items = items_list
+    def __init__(self,w,h,x,y,render_text, render_surface, screen ,slots = 7, rows = 4):
         self.x = x
         self.y = y
         self.w = w
@@ -141,12 +139,10 @@ class Inventory():
         self.render_surface = render_surface
 
 
-    def render_slots(self):
+    def render_slots(self,pos_y,offset, padding):
         slot_index = 0
-        padding = 5
-        offset = 2
         for row in range(self.rows):
-            y = self.y + row * self.slot_size + padding
+            y = pos_y + row * self.slot_size + padding
             x = self.x + offset
             for i in range(0, self.slots):
                 self.render_surface(self.slot_size - offset , self.slot_size - offset, x, y, 'dark grey')
@@ -156,19 +152,24 @@ class Inventory():
     def inventory_item_slot(self, item,x,y):
         if item:
             self.render_text(item.name[0].upper(), (x+15,y+10), 'black', font_size = 24 )
-            self.render_text(f'x{item.quantity}', (x+self.slot_size/2,y+self.slot_size/1.5),'black', )
+            self.render_text(f'x{item.available_quantity}', (x + self.slot_size / 2, y + self.slot_size / 1.5), 'black', )
 
-    def render(self):
-        self.render_surface(self.w, self.h, self.x, self.y, 'white')
-        self.render_slots()
+    def render(self, char_obj):
+        items = char_obj.inventory
         offset = 2
-        if len(self.items):
+        padding = 5
+        slot_pos_y = self.y + 10*offset
+        self.render_surface(self.w, self.h, self.x, self.y, 'white')
+        self.render_text(char_obj.name,(self.x + offset*padding , self.y + padding),'black',font_size = 18)
+        self.render_slots(slot_pos_y,offset, padding)
+
+        if len(items):
             slot_index = 0
             for row in range(self.rows):
-                y = self.y + row * self.slot_size + offset # adjustment needed
+                y = slot_pos_y + row * self.slot_size + offset # adjustment needed
                 x = self.x + offset
                 for i in range( 0, self.slots):
-                    item = self.items[slot_index] if len(self.items) > slot_index  else None
+                    item = items[slot_index] if len(items) > slot_index  else None
                     self.inventory_item_slot(item,x,y)
                     x += self.slot_size
                     slot_index += 1
