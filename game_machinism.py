@@ -89,7 +89,6 @@ class HungerMechanism():
         self.regain_health()
 
         #simulate gathering food
-        print(self.character.name, self.check_last_ate(), self.time_object.get_hours() - self.character.food['last_consumed'], self.time_object.get_time() - self.food_timing)
 
 
 
