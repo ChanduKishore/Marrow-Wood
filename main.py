@@ -1,7 +1,7 @@
 from  day_and_night_cycle import *
 import json
 from time import time, sleep
-from character import CharacterStats
+from character import CharacterInventory
 import os
 from inventory_items import inventory_items
 
@@ -48,7 +48,7 @@ def fill_inventory(character,inventory, inv_items):
         person.add_item(item_class(**item_properties))
 
 
-person = CharacterStats(**person_stats)
+person = CharacterInventory(**person_stats)
 fill_inventory(person,person_inventory, inventory_items)
 
 

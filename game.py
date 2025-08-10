@@ -2,8 +2,7 @@ import pygame
 from day_and_night_cycle import DayNightCycle
 from consumable import Consumable, Bush
 from utils import  DialogBox,RenderUtils, Inventory
-from character import CharacterStats
-from game_machinism import HungerMechanism
+from character import CharacterModel
 from setup import Dimensions
 
 class Logs():
@@ -137,7 +136,7 @@ class GameWindow(Dimensions,RenderUtils,DialogBox,Inventory):
         status_bar_height = height/8
         status_bar_width = width/2
         padding = 10
-        
+
         self.render_surface(width,height,x,y,'#163E64')
         self.render_text(follower.name,(x+padding,y+padding), color='white')
         follower_surface = pygame.Rect(x, y, width, height)
@@ -207,27 +206,25 @@ class GameWindow(Dimensions,RenderUtils,DialogBox,Inventory):
 
 
 
-
+#time object
 time_object = DayNightCycle(0)
 
-
-
-#set up character objects
-person1_stats = {'name':'First Follower', 'health':10, 'food':60, 'water':50, 'max_health':100, 'max_food':100, 'max_water':100, 'last_ate':0, 'last_drink': 0, 'inventory':[] }
-person2_stats = {'name':'Second Follower', 'health':80, 'food':60, 'water':50, 'max_health':100, 'max_food':100, 'max_water':100, 'last_ate':0, 'last_drink': 0, 'inventory':[] }
-person1 = CharacterStats(**person1_stats)
-person2 = CharacterStats(**person2_stats)
-bush = Bush('Near By Bush')
+#setting up surroundings
+bush = Bush('Near By Bush', time_object)
 surrounding_items = [bush]
 # person.add_to_inventory(apple)
 # person.add_to_inventory(orange)
 
-follower_objects = [person1, person2]
+#setting up log
 log = Logs(time_object)
 
-hunger_mechanism =[]
-for person in follower_objects:
-    hunger_mechanism.append(HungerMechanism(person, time_object, log, surrounding_items))
+#set up character objects
+person_stats = { 'health':50, 'food':60, 'water':50, 'max_health':100, 'max_food':100, 'max_water':100, 'last_ate':0, 'last_drink': 0, 'time_object':time_object, 'log':log, 'surrounding_items': surrounding_items}
+
+followers = ['First Follower','Second Follower','Third Follower']
+
+follower_objects = [CharacterModel(name,**person_stats) for name in followers ]
+
 
 
 game = GameWindow( time_object, follower_objects, log, surrounding_items)
@@ -240,7 +237,7 @@ while True:
             pygame.quit()
             exit()
 
-    for person in hunger_mechanism:
+    for person in follower_objects:
         person.simulate()
 
     game.render_game_screen()
